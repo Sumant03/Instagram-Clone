@@ -7,7 +7,14 @@ import{ db,auth} from "./firebase";
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import{Button,Input} from '@material-ui/core';
-import ImageUpload from './ImageUpload.js';
+import ImageUpload from './ImageUpload';
+// import InstagramEmbed from "react-instagram-embed";
+
+
+
+
+
+
 
 function getModalStyle() {
   const top = 50 ;
@@ -57,7 +64,7 @@ function App() {
 
 //useeffect => run apiece of code on a specific condition
 useEffect(()=>{
- db.collection('posts').orderBy('timestamp',).onSnapshot(snapshot=>{
+ db.collection('posts').onSnapshot(snapshot=>{
 
   setPosts(snapshot.docs.map(doc=>doc.data()
   ));
@@ -112,11 +119,7 @@ const signIn=(event)=>{
        {/*CAPTION*/}
        {/*fIEL PICKER*/}
        {/*pOST bUTTON*/} 
-       {user?.displayName?(
-       <ImageUpload username={user.displayName}/>
-       ):(
-         <h3>Sorry,You need to login first</h3>
-       )}
+       
        
 
 
@@ -183,8 +186,7 @@ const signIn=(event)=>{
     <div className="app_header">
       <img  src={image} height="40px" className="app_headerImage"/>
        
-    </div>
-    {user?(
+      {user?(
       <Button onClick={()=>auth.signOut()}>Log Out</Button>
     ):(
       <div className="app_loginContainer">
@@ -192,12 +194,32 @@ const signIn=(event)=>{
     <Button onClick={()=>setOpen(true)}>Sign Up</Button>   
    </div>
    )}
-    <h1>Hello Clever Programmers</h1>
+    </div>
+  
+    <div className="app_posts">
     {
     posts.map(post=>(
     <Post  username={post.username} caption={post.caption} imageUrl={post.imageUrl} />
     ))
+
 }
+{/* <InstagramEmbed
+url="https://www.hostingadvice.com/wp-content/uploads/2018/09/node-js-logo.jpg"
+maxWidth={320}
+hideCaption={false}
+container Tagname='div'
+protocol=''
+onLoading={()=>{}}
+onSuccess={()=>{}}
+onAfterRender={()=>{}}
+onFailure={()=>{}}/> */}
+      </div>   
+    
+{user?.displayName?(
+       <ImageUpload username={user.displayName}/>
+       ):(
+         <h3>Sorry,You need to login first</h3>
+       )}
     
     {/*     Post      Posts */}
     </div>
